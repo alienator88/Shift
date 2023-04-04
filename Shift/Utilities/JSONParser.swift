@@ -9,40 +9,52 @@ import Foundation
 import SwiftyJSON
 
 // Get last profile used
-func getLastUsed(data: Data) {
+func getActiveProfile(data: Data) -> String {
     if let json = try? JSON(data: data) {
         let last = json["profile"]["last_used"].string ?? "N/A"
-        print("Last used: \(last)")
+//        print("Active: \(last)")
+        return last
     }
+    return "N/A"
 }
 
 // Get profile count
-func getProfileCount(data: Data) {
+func getProfileCount(data: Data) -> Int {
     if let json = try? JSON(data: data) {
         let count = json["profile"]["profiles_created"].int ?? 0
-        print("Profile count: \(count)")
+//        print("Profile count: \(count)")
+        return count
     }
+    return 0
 }
 
-// Get Profile Info
-func getProfileInfo(data: Data) {
+// Get profile name
+func getProfileName(data: Data) -> [String] {
     if let json = try? JSON(data: data) {
+        var dict = [String]()
         for (_, profiles) in json["profile"]["info_cache"] {
-            let profile = profiles["user_name"].string ?? "N/A"
-            print("Profile Info: \(profile)")
+            let profile = profiles["name"].string ?? "N/A"
+//            print("Profile Info: \(profile)")
+            dict.append(profile)
         }
+        return dict
     }
+    return ["N/A"]
 }
 
-// Get last profile used
-func getLastUsed2(data: Data) {
+// Get profile names from the keys
+func getProfileNames(data: Data) -> [String] {
+    var dict = [String]()
     if let json = try? JSON(data: data) {
         let last = json["profile"]["info_cache"].dictionary ?? [:]
         for (key) in last {
-            print("Key: \(key.key)")
+//            print("Key: \(key.key)")
+            dict.append(key.key)
         }
+        return dict
 //        print("Info: \(last.keys)")
     }
+    return ["N/A"]
 }
 
 
